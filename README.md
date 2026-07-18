@@ -1,14 +1,30 @@
-# ExpenselQ
-A Python-powered personal finance analytics dashboard designed to track, analyze, and optimize your spending. By identifying patterns and detecting anomalous or unidentified charges, it empowers users to cut unnecessary costs and take smarter control of their financial health.
+# ExpenseIQ
 
-## Target User
-- College Students : Managing tight budgets, navigating independent living for the first time, and needing to make every dollar count.
+ExpenseIQ is a functional Streamlit-based personal finance app built as a practical MVP for managing uploaded bank statements. It focuses on the core user experience of signing up, logging in, uploading files, and organizing statement records in a simple dashboard.
 
-- Young professionals : Looking to optimize their growing income, build savings, and transition from basic budgeting to smart wealth management.
+## What the project currently includes
+- A landing page and onboarding flow
+- User sign-up and login experience
+- A local SQLite database for storing users and statement metadata
+- A statement upload workflow for PDF files from selected banks
+- A statement history view with the ability to delete uploaded records
+- Local file storage for uploaded documents in the project data folder
 
-## The Problem & Why ExpenselQ
-For many young adults, financial management is synonymous with stress. Two major pain points stand in the way of financial peace of mind:
+## What it does not yet include
+- No AI-powered financial analysis
+- No automatic transaction parsing from PDF statements
+- No forecasting or scenario-planning features
+- No live bank API integration
 
-- The "Where Did My Money Go?" Anxiety: It is incredibly frustrating to look at a bank balance at the end of the month and have no clear idea of where the funds went.
+## Tech stack
+- Python
+- Streamlit
+- SQLite
 
-- The Bank Statement Dread: Manually auditing line-by-line bank statements is time-consuming, tedious, and easy to procrastinate. This often leads to missed subscription charges, hidden fees, or undetected unauthorized transactions.
+## How to run
+1. Install dependencies:
+   pip install -r requirements.txt
+2. Start the app:
+   streamlit run main.py
+
+
