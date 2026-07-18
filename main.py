@@ -205,7 +205,7 @@ elif st.session_state.page == "statements":
     chosen_bank_id = bank_options[selected_bank_label]
     
     # Flow Step 2: PDF Drop-zone
-    st.markdown("#### 📂 Step 2: Upload Your PDF Statement")
+    st.markdown("#### 📂 Step 2: Statement upload feature (Prototype)")
     uploaded_file = st.file_uploader(f"Upload a PDF bank statement from {selected_bank_label}.", type=["pdf"])
     
     # Error checking for file structure
@@ -286,3 +286,7 @@ elif st.session_state.page == "statements":
         st.session_state.user_id = None
         st.session_state.user_name = None
         navigate_to("landing")
+    
+    st.divider()
+    st.caption("© 2026 ExpenseIQ")
+    st.caption("pamelakyei15@gmail.com")
