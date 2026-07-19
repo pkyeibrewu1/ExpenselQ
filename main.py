@@ -287,6 +287,10 @@ elif st.session_state.page == "statements":
         st.session_state.user_name = None
         navigate_to("landing")
     
-    st.divider()
-    st.caption("© 2026 ExpenseIQ")
+st.write("##") # Explicit spacing buffer
+st.divider()
+
+foot_col1, foot_col2, foot_col3 = st.columns([1, 2, 1])
+with foot_col2:
+    st.caption("© 2026 ExpenseIQ — All Rights Reserved")
     st.caption("pamelakyei15@gmail.com")
