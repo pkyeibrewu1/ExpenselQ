@@ -1,6 +1,6 @@
 # ExpenseIQ
 
-ExpenseIQ is a functional Streamlit-based personal finance app built as a practical MVP for managing uploaded bank statements. It focuses on the core user experience of signing up, logging in, uploading files, and organizing statement records in a simple dashboard.
+ExpenseIQ is a Streamlit-based personal finance application built as a prototype to explore personal finance management. It features user authentication, a responsive dashboard, and statement management using Streamlit and SQLite. The current version showcases the application's architecture and user experience; bank statement processing and financial analysis are planned for future development.
 
 ## What the project currently includes
 - A landing page and onboarding flow
