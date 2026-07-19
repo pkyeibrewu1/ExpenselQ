@@ -22,17 +22,17 @@ data/*.sqlite3
 *.secret
 
 # --- Sensitive Financial Documents ---
-# Ignores common personal/document files that may contain account info or statements
-*.csv
-*.xlsx
-*.xls
-*.pdf
-*.doc
-*.docx
-*.png
-*.jpg
-*.jpeg
-*.gif
+# Ignores files inside data or reports folders specifically
+data/*.csv
+data/*.xlsx
+data/*.xls
+data/*.pdf
+data/*.png
+data/*.jpg
+
+reports/*.csv
+reports/*.xlsx
+reports/*.pdf
 
 # --- OS specific files ---
 .DS_Store
