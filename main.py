@@ -169,6 +169,7 @@ elif st.session_state.page == "signup":
     st.title("✨ Join the ExpenseIQ Family")
     st.subheader("Create your profile below")
     
+    # Form handles text inputs and form submission
     with st.form("signup_form"):
         col1, col2 = st.columns(2)
         with col1:
@@ -191,11 +192,24 @@ elif st.session_state.page == "signup":
                 st.error("⚠️ Passwords do not match.")
             else:
                 if add_user(first_name, last_name, email, password):
-                    st.balloons()
-                    st.success(f"🎉 Welcome {first_name}! Your account has been created.")
-                    st.button("Proceed to Login", on_click=navigate_to, args=("login",))
+                    st.session_state.signup_success = True
+                    st.session_state.signed_up_user = first_name
                 else:
                     st.error("⚠️ An account with this email already exists.")
+
+    # Render post-signup actions OUTSIDE the form block
+    if st.session_state.get("signup_success", False):
+        st.balloons()
+        st.success(f"🎉 Welcome {st.session_state.signed_up_user}! Your account has been created.")
+        if st.button("Proceed to Login ➡️", type="primary", use_container_width=True):
+            st.session_state.signup_success = False
+            navigate_to("login")
+            st.rerun()
+
+    st.markdown("---")
+    if st.button("⬅️ Back to Home"):
+        navigate_to("landing")
+        st.rerun()
 
 
 # SCREEN C: Login Screen
@@ -218,8 +232,13 @@ elif st.session_state.page == "login":
             else:
                 st.error("❌ Invalid email or password.")
 
+    st.markdown("---")
+    if st.button("⬅️ Back to Home"):
+        navigate_to("landing")
+        st.rerun()
 
-# SCREEN D: Real-Time Statements Processing & Metadata Display
+
+# SCREEN D: Dashboard & Statements Management
 elif st.session_state.page == "statements":
     if not st.session_state.user_id:
         st.warning("Please log in to view your statement dashboard.")
@@ -237,7 +256,7 @@ elif st.session_state.page == "statements":
     
     st.divider()
     
-    # Interactive Upload Form with Expander/Tabs
+    # Interactive Statement Upload Section
     with st.expander("➕ **Upload New Bank Statement**", expanded=True):
         bank_options = {
             "Bank of America": "bofa",
@@ -277,43 +296,39 @@ elif st.session_state.page == "statements":
 
     st.divider()
 
-    # Interactive Statement Explorer
+    # Interactive Statement History & Data Table
     st.markdown("### 📋 Statement History & Analytics")
     
     if not user_records:
         st.info("No statements logged yet. Upload a PDF statement above to get started.")
     else:
-        # Convert records to Pandas DataFrame for advanced interactive display
         df = pd.DataFrame(user_records, columns=["ID", "Bank", "File Name", "Upload Date", "Status", "Stored File"])
         
-        # Search & Filter Controls
+        # Search and Filtering Controls
         col_search, col_filter = st.columns([2, 1])
         with col_search:
             search_query = st.text_input("🔍 Search File Name", "")
         with col_filter:
             selected_banks = st.multiselect("Filter by Bank", options=df["Bank"].unique(), default=df["Bank"].unique())
         
-        # Apply filters
         filtered_df = df[(df["Bank"].isin(selected_banks)) & (df["File Name"].str.contains(search_query, case=False))]
         
-        tab1, tab2 = st.tabs(["📊 Table View", "📈 Bank Analytics"])
+        tab1, tab2 = st.tabs(["📊 Interactive Data Table", "📈 Bank Analytics"])
         
         with tab1:
-            # Interactive DataFrame
             st.dataframe(
                 filtered_df[["Bank", "File Name", "Upload Date", "Status"]],
                 use_container_width=True,
                 hide_index=True
             )
             
-            # Interactive Record Deletion
-            st.markdown("#### Manage Files")
+            st.markdown("#### File Operations")
+            bank_options = {"Bank of America": "bofa", "Chase": "chase", "Wells Fargo": "wells_fargo", "Chime": "chime"}
             for idx, row in filtered_df.iterrows():
                 c_info, c_action = st.columns([4, 1])
                 c_info.text(f"📄 {row['Bank']} — {row['File Name']} ({row['Upload Date']})")
                 
                 with c_action:
-                    # Popover confirmation to avoid accidental deletion
                     with st.popover("🗑️ Delete"):
                         st.write("Confirm deletion?")
                         if st.button("Yes, delete", key=f"del_{row['ID']}", type="primary"):
@@ -326,7 +341,6 @@ elif st.session_state.page == "statements":
                             st.rerun()
                             
         with tab2:
-            # Visual Analytics
             bank_counts = filtered_df["Bank"].value_counts().reset_index()
             bank_counts.columns = ["Bank", "Count"]
             st.bar_chart(bank_counts, x="Bank", y="Count", use_container_width=True)
