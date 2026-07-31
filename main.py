@@ -46,9 +46,16 @@ def init_db():
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
     """)
+    
+    # --- AUTO MIGRATION PATCH ---
+    # Safely check and add 'total_spent' column if the table was created under the old schema
+    try:
+        cursor.execute("ALTER TABLE statements ADD COLUMN total_spent REAL DEFAULT 0.0")
+    except sqlite3.OperationalError:
+        pass  # Column already exists!
+
     conn.commit()
     conn.close()
-
 init_db()
 
 # --- HELPER FUNCTIONS ---
