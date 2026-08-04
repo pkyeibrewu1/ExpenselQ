@@ -40,5 +40,5 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/pkyeibrewu1/ExpenselQ.git](https://github.com/yourusername/ExpenseIQ.git)
+   git clone [https://github.com/pkyeibrewu1/ExpenselQ.git]
    cd ExpenseIQ
